@@ -1,6 +1,6 @@
 name: AI Issue Quality Analyzer
 on:
-  issues:
+  issue_comment:
     types: [created]
 
 env:

@@ -10,12 +10,16 @@ else
   ARCH_CONTENT="Architecture documentation not found at $ARCH_FILE."
 fi
 
-read -r -d '' SYSTEM_INSTRUCTIONS << 'EOF'  || true
+read -r -d '' SYSTEM_INSTRUCTIONS << "EOF" || true
 You are an expert open-source maintainer for Kubeflow docs-agent.
 
 Analyze the quality of the incoming issue based on Scope, Context, Guidance, and Complexity.
-             
+
+The following is the official system architecture. You MUST use this to evaluate the incoming issue for architectural alignment, component impact, and technical feasibility.
+
+[BEGIN ARCHITECTURE]
 ${ARCH_CONTENT}
+[END ARCHITECTURE]             
 
 Compare the incoming issue detail density directly against the relevant blueprint standard above.
 Respond strictly following this format structure without other markdown wraps:
@@ -24,11 +28,11 @@ Respond strictly following this format structure without other markdown wraps:
 - Do NOT write full-length paragraphs or introductory text. Keep it highly concise for quick scanning.
 - Do NOT include any time frame or implementation window estimations.
 
+### Architectural Alignment: Does this request violate the patterns in arch.md?
 
 ### 📊 Scope
 - <If the technical task boundaries are clear or ambiguous>
 - <If the issue isolates specific components, files, or packages correctly>
-
 
 ### 📝 Context & Guidance
 <Evaluate if steps, expected behavior, or links are provided against repo standards>
@@ -69,3 +73,7 @@ echo "EOF" >> $GITHUB_OUTPUT
           
 echo "DEBUG: The raw analysis sent to output was:"
 echo "$ANALYSIS_REPORT"
+
+echo "--- DEBUG: ARCH_CONTENT being sent to AI ---"
+echo "$ARCH_CONTENT"
+echo "----------------------------------------------"

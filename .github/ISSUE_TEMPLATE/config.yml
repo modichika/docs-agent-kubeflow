@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Have questions or need support?
+    url: https://cloud-native.slack.com/archives/C0AF5C85J9J
+    about: Please ask questions on the slack channel.

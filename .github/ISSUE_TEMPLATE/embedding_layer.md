@@ -6,19 +6,18 @@ labels: ["component:embeddings", "triage-needed"]
 ---
 
 ## 🧭 Component & Scope
-* **Target Component:** 
+### Target Component: 
 <!-- Embedding Layer (`docs-agent-mcp/terraform/embeddings.tf`, `docs-agent-mcp/pipelines/utils.py`) -->
-* **Scope & Technical Boundaries:** 
+### Scope & Technical Boundaries:
   <!-- > Specify TEI inference service configuration, dimensions (768), or model endpoints (`sentence-transformers/all-mpnet-base-v2`). -->
 
 ## 📝 Context & Reproduction
-* **Problem Statement / Context:**
+### Problem Statement / Context:
   > 
-* **Reproduction Steps / Expected Behavior:**
+### Reproduction Steps / Expected Behavior:
   > 
 
-## ⚡ Complexity & Impact Assessment
-* **Estimated Complexity Tier:** 
-<!-- Low, Medium, or High -->
-* **Cross-Layer Impact:**
-  >
+## Proposed Fixes:
+<!-- propose fixes that aligns with your knowledge of the architecture. -->
+### Edge Cases of the proposed fixes:
+<!-- briefly state the edge cases of the proposed fixes so that maintainers can discuss before opening a pr or solving this issue. -->

@@ -6,17 +6,18 @@ labels: ["component:agent", "triage-needed", "llm"]
 ---
 
 ## 🧭 Component & Scope
-* **Target Component:** Kagent Agent Layer (`docs-agent-mcp/manifests/kagent/setup.yaml`, `docs-agent-mcp/terraform/kagent.tf`)
-* **Scope & Technical Boundaries:** 
-  > Specify if this affects model configs, agent control plane behavior, system message routing instructions, or A2A communication.
+### Target Component: 
+<!-- Kagent Agent Layer (`docs-agent-mcp/manifests/kagent/setup.yaml`, `docs-agent-mcp/terraform/kagent.tf`) -->
+### Scope & Technical Boundaries:
+  <!--  Specify if this affects model configs, agent control plane behavior, system message routing instructions, or A2A communication. -->
 
 ## 📝 Context & Reproduction
-* **Problem Statement / Context:**
+### Problem Statement / Context:
   > 
-* **Reproduction Steps / Expected Behavior:**
+### Reproduction Steps / Expected Behavior:
   > 
 
-## ⚡ Complexity & Impact Assessment
-* **Estimated Complexity Tier:** <!-- Low, Medium, or High -->
-* **Cross-Layer Impact:**
-  >
+## Proposed Fixes:
+<!-- propose fixes that aligns with your knowledge of the architecture. -->
+### Edge Cases of the proposed fixes:
+<!-- briefly state the edge cases of the proposed fixes so that maintainers can discuss before opening a pr or solving this issue. -->

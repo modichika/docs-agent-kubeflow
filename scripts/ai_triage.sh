@@ -1,38 +1,32 @@
 set -e
 gh extension install github/gh-models --force || true
 
-ARCH_FILE=$1
 echo "Using model: $TARGET_MODEL"
 
-if [ -f "$ARCH_FILE" ]; then
-  ARCH_CONTENT=$(cat "$ARCH_FILE")
-else
-  ARCH_CONTENT="Architecture documentation not found at $ARCH_FILE."
-fi
-
-read -r -d '' SYSTEM_INSTRUCTIONS << "EOF" || true
-You are an expert open-source maintainer for Kubeflow docs-agent.
+read -r -d '' SYSTEM_INSTRUCTIONS << 'EOF'  || true
+You are an expert open-source maintainer for Kubeflow Pipelines.
 
 Analyze the quality of the incoming issue based on Scope, Context, Guidance, and Complexity.
-
-The following is the official system architecture. You MUST use this to evaluate the incoming issue for architectural alignment, component impact, and technical feasibility.
-
-[BEGIN ARCHITECTURE]
-${ARCH_CONTENT}
-[END ARCHITECTURE]             
+             
+Calibrate your evaluation against these compressed reference standards:
+- BACKEND (#13314): [backend] S3 operations fail with non-AWS object stores after AWS SDK v2 checksum defaults change. Clear isolated scope.
+- BUG TIER (#13180): [bug] fix: E2E test flakiness on K8s v1.34.0 — root cause analysis. High-quality root-cause analysis and environment data.
+- FRONTEND (#13108): [frontend] Adds coverage for frontend mock:api startup and enum drift. Explicit file paths and definitions of done.
+- SDK (#12865): [sdk] [bug] [set_accelerator_limit] rejects valid accelerator counts (only allows 0, 1, 2, 4, 8, 16). Elite precision with failing parameters.
 
 Compare the incoming issue detail density directly against the relevant blueprint standard above.
+
 Respond strictly following this format structure without other markdown wraps:
 
 - Each section MUST contain exactly 2 to 3 short, bullet fragments. 
 - Do NOT write full-length paragraphs or introductory text. Keep it highly concise for quick scanning.
 - Do NOT include any time frame or implementation window estimations.
 
-### Architectural Alignment: Does this request violate the patterns in arch.md?
 
 ### 📊 Scope
 - <If the technical task boundaries are clear or ambiguous>
 - <If the issue isolates specific components, files, or packages correctly>
+
 
 ### 📝 Context & Guidance
 <Evaluate if steps, expected behavior, or links are provided against repo standards>
@@ -41,7 +35,7 @@ Respond strictly following this format structure without other markdown wraps:
 - <State difficulty tier: Low, Medium, or High, calibrated against this exact rubric:
   * LOW: Task is isolated to single-file fixes, shallow tweaks, or documentation updates.
   * MEDIUM: Task has moderate architectural depth, affecting internal logic patterns or specific layer wrappers.
-  * HIGH: Task has deep architectural depth or high breadth, spanning multiple system components simultaneously (e.g., changes across the SDK, backend, frontend, or infrastructure).>
+  * HIGH: Task has deep architectural depth or high breadth, spanning multiple system components simultaneously (e.g., changes across the SDK, backend, frontend, or argo compiler engines).>
 - <Break down the breadth (cross-layer impact) and depth (internal system complexity) of the proposed change>
 
 
@@ -73,7 +67,3 @@ echo "EOF" >> $GITHUB_OUTPUT
           
 echo "DEBUG: The raw analysis sent to output was:"
 echo "$ANALYSIS_REPORT"
-
-echo "--- DEBUG: ARCH_CONTENT being sent to AI ---"
-echo "$ARCH_CONTENT"
-echo "----------------------------------------------"

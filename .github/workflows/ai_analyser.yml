@@ -1,14 +1,13 @@
 name: AI Issue Quality Analyzer
 on:
-  issue_comment:
-    types: [created]
+  issues:
+    types: [opened]
 
 env:
   TARGET_MODEL: "openai/gpt-4o-mini"
 
 jobs:
   analyze-issue:
-    if: contains(github.event.comment.body, '/review-issue')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -24,10 +23,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TITLE: ${{ github.event.issue.title }}
           RAW_BODY: ${{ github.event.issue.body }}
-          ARCH_PATH: "docs/arch.md"
         run: |
-          chmod +x ./scripts/ai_triage.sh
-          ./scripts/ai_triage.sh "$ARCH_PATH"
+          ./.github/scripts/ai_triage.sh
 
       - name: Apply Quality Analysis Comment
         env:
@@ -37,4 +34,3 @@ jobs:
         run: |
           gh issue comment "$ISSUE_NUMBER" --body "## 🤖 AI Issue Quality Review
           $REPORT"
-

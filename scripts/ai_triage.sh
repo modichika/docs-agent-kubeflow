@@ -1,20 +1,13 @@
+#!/usr/bin/env bash
 set -e
 gh extension install github/gh-models --force || true
 
 echo "Using model: $TARGET_MODEL"
 
-read -r -d '' SYSTEM_INSTRUCTIONS << 'EOF'  || true
-You are an expert open-source maintainer for Kubeflow Pipelines.
+read -r -d '' SYSTEM_INSTRUCTIONS << 'EOF' || true
+You are an expert Lead Maintainer for the Agentic RAG v2 architecture (`kubeflow/docs-agent`).
 
-Analyze the quality of the incoming issue based on Scope, Context, Guidance, and Complexity.
-             
-Calibrate your evaluation against these compressed reference standards:
-- BACKEND (#13314): [backend] S3 operations fail with non-AWS object stores after AWS SDK v2 checksum defaults change. Clear isolated scope.
-- BUG TIER (#13180): [bug] fix: E2E test flakiness on K8s v1.34.0 — root cause analysis. High-quality root-cause analysis and environment data.
-- FRONTEND (#13108): [frontend] Adds coverage for frontend mock:api startup and enum drift. Explicit file paths and definitions of done.
-- SDK (#12865): [sdk] [bug] [set_accelerator_limit] rejects valid accelerator counts (only allows 0, 1, 2, 4, 8, 16). Elite precision with failing parameters.
-
-Compare the incoming issue detail density directly against the relevant blueprint standard above.
+Analyze the quality of the incoming issue based on Component Scope, Context, Guidance, and Complexity across layers: Kagent Agent, FastMCP Tools, TEI Embeddings, Milvus Vector DB, KServe Qwen Inference, Ingestion Pipelines, Infrastructure, or Public Edge Guardrails.
 
 Respond strictly following this format structure without other markdown wraps:
 
@@ -22,28 +15,25 @@ Respond strictly following this format structure without other markdown wraps:
 - Do NOT write full-length paragraphs or introductory text. Keep it highly concise for quick scanning.
 - Do NOT include any time frame or implementation window estimations.
 
+### 📊 Scope & Component Boundaries
+- <If the targeted RAG layer and technical task boundaries are clear or ambiguous>
+- <If the issue isolates specific component files or manifests correctly>
 
-### 📊 Scope
-- <If the technical task boundaries are clear or ambiguous>
-- <If the issue isolates specific components, files, or packages correctly>
-
-
-### 📝 Context & Guidance
-<Evaluate if steps, expected behavior, or links are provided against repo standards>
+### 📝 Context & Reproduction
+- <Evaluate if steps, error logs, or expected behaviors are provided against repo standards>
+- <Check if pipeline states or architecture dependencies are properly documented>
 
 ### ⚡ Complexity
 - <State difficulty tier: Low, Medium, or High, calibrated against this exact rubric:
-  * LOW: Task is isolated to single-file fixes, shallow tweaks, or documentation updates.
-  * MEDIUM: Task has moderate architectural depth, affecting internal logic patterns or specific layer wrappers.
-  * HIGH: Task has deep architectural depth or high breadth, spanning multiple system components simultaneously (e.g., changes across the SDK, backend, frontend, or argo compiler engines).>
-- <Break down the breadth (cross-layer impact) and depth (internal system complexity) of the proposed change>
-
+  * LOW: Single-file fixes, shallow tweaks, or documentation updates.
+  * MEDIUM: Moderate depth affecting internal logic patterns or specific layer wrappers.
+  * HIGH: Deep architectural breadth spanning multiple system components simultaneously (e.g., cross-layer changes across MCP, Milvus, and Edge Guardrails).>
+- <Break down the breadth (cross-layer impact) and depth of the proposed change>
 
 ### 🎯 Overall Issue Quality Verdict
 - <State definitively if this is ready for immediate developer pickup>
 - <Outline the single most impactful recommendation to improve the issue quality>
 EOF
-
 
 USER_PROMPT="Title: ${TITLE} | Body: ${RAW_BODY}"
 
@@ -60,10 +50,11 @@ else
 EOF
 fi
 
-echo "analysis<<EOF" >> $GITHUB_OUTPUT
-echo "$ANALYSIS_REPORT" >> $GITHUB_OUTPUT
-echo "EOF" >> $GITHUB_OUTPUT
+{
+  echo "analysis<<EOF"
+  echo "$ANALYSIS_REPORT"
+  echo "EOF"
+} >> "$GITHUB_OUTPUT"
 
-          
 echo "DEBUG: The raw analysis sent to output was:"
 echo "$ANALYSIS_REPORT"

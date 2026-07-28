@@ -1,23 +1,24 @@
 # Skill: Kubeflow Docs-Agent Issue Analyzer (Demo Mode)
 
 ## Description
-Fetch live open issues from the official `kubeflow/docs-agent` repository, perform a deep local Agentic RAG v2 architectural analysis, and output a highly polished, ready-to-copy markdown report directly to your local terminal sidebar. (Safe / Read-Only Mode).
+Fetch live open issues from the official `modichika/docs-agent-kubeflow` repository, perform a deep local Agentic RAG v2 architectural analysis, and output a highly polished, ready-to-copy markdown report directly to your local terminal sidebar. (Safe / Read-Only Mode).
 
 ## Prerequisites
 - The user must be authenticated via the GitHub CLI (`gh auth login`).
 - Internet access is required to pull active issues from the official upstream repository.
 
 ## Execution Sequence
-1. Execute `gh issue list --repo kubeflow/docs-agent --limit 10 --json number,title,body` to pull the latest 10 open issues from the official Kubeflow organization.
-2. Present the summary list of live tickets in the terminal and ask: "Which upstream issue number would you like to analyze for the maintainer demo?"
-3. Once selected, download the complete payload using: `gh issue view <NUMBER> --repo kubeflow/docs-agent`
+1. Execute `gh issue list --limit 10 --json number,title,body` to fetch recent open issues from your personal fork.
+2. Present the summary list of tickets to the maintainer and prompt: "Which issue number from your fork would you like to actively triage?"
+3. Once selected, download the complete payload using: `gh issue view <NUMBER> 
 4. Run the issue payload through the core evaluation rubric below, cross-referencing your local codebase architecture context.
-5. Identify the appropriate architectural components and status lifecycle labels using the Automated Labeling Engine rules.
-6. Print the completed, beautifully formatted markdown analysis card directly to the IDE console stream.
-7. End the execution path by outputting a clean code block containing the exact command the maintainer could use to post it:
-   ```text
-   👉 Copy the report below to show the maintainers, or run this manually to post:
-   gh issue comment <NUMBER> --repo kubeflow/docs-agent --body "<REPORT_CONTENT>"
+5. Identify the correct architectural layer label and status label using the Automated Labeling Engine rules.
+6. Display the formatted markdown analysis and proposed labels on-screen.
+7. **Wait for authorization.** Ask the maintainer: "Would you like me to apply these labels and post the analysis to your fork's issue thread now?"
+8. Upon confirmation, execute the live updates directly against your forked repository:
+   ```bash
+   gh issue edit <NUMBER> --add-label "<PROPOSED_LABEL>"
+   gh issue comment <NUMBER> --body "<GENERATED_MARKDOWN_ANALYSIS>"
    ```
 
 ---
@@ -34,7 +35,7 @@ Compare the incoming issue detail density directly against core engineering stan
 
 ## Automated Labeling Engine
 
-Analyze the issue text to isolate the target layer and assign the single most accurate component label and status lifecycle label from these official repo categories:
+Analyze the issue text to isolate the target layer and assign the single most accurate component label and status lifecycle label from the official `kubeflow/docs-agent` categories:
 
 ### ⚙️ Component Categories (Choose One)
 - `component/kagent`: Core AI agent orchestration logic, memory handling, or prompting cycles.
